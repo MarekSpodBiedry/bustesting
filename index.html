@@ -838,22 +838,25 @@ function applyScale() {
   const container = document.querySelector('.container');
   const popupOverlay = document.getElementById('popupOverlay');
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  const isPortrait = vh > vw;
-
-  // Reset scale first
+  // Reset first so we measure actual size
   container.style.transform = 'none';
   popupOverlay.style.transform = 'none';
-  container.style.transformOrigin = 'center center';
-  popupOverlay.style.transformOrigin = 'center center';
 
-  if (isPortrait && vw < 400) {
-    const scale = vw / 400;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const isPortrait = vh > vw;
+
+  const rect = container.getBoundingClientRect();
+  const visibleWidth = rect.width;
+
+  if (isPortrait && visibleWidth < vw * 0.95) {
+    const scale = vw * 0.95 / visibleWidth;
 
     container.style.transform = `scale(${scale})`;
     popupOverlay.style.transform = `scale(${scale})`;
+
+    container.style.transformOrigin = 'center center';
+    popupOverlay.style.transformOrigin = 'center center';
   }
 }
 
