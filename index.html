@@ -200,28 +200,27 @@ function applyResponsiveScale() {
   const container = document.querySelector('.container');
   const popupOverlay = document.getElementById('popupOverlay');
 
-  const isPortrait = window.innerHeight > window.innerWidth;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  const isPortrait = vh > vw;
 
-  const needsScale = isPortrait;
-
-  // Reset scale first
+  // Reset previous scaling
   container.style.transform = 'none';
   popupOverlay.style.transform = 'none';
   container.style.transformOrigin = 'center center';
   popupOverlay.style.transformOrigin = 'center center';
 
-  if (needsScale) {
-    const scale = 400 / containerWidth;
-
+  if (isPortrait && vw < 400) {
+    const scale = vw / 400;
     container.style.transform = `scale(${scale})`;
     popupOverlay.style.transform = `scale(${scale})`;
   }
 }
 
-// Run on load and resize
 window.addEventListener('DOMContentLoaded', applyResponsiveScale);
 window.addEventListener('resize', applyResponsiveScale);
 </script>
+
 
 </head>
 <body>
