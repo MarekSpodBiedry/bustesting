@@ -835,29 +835,34 @@ input.addEventListener("input", function () {
 
 <script>
 function applyScale() {
-  const container = document.querySelector('.container');
-  const popupOverlay = document.getElementById('popupOverlay');
+  // Delay to ensure layout is stable
+  setTimeout(() => {
+    const container = document.querySelector('.container');
+    const popupOverlay = document.getElementById('popupOverlay');
 
-  // Reset first so we measure actual size
-  container.style.transform = 'none';
-  popupOverlay.style.transform = 'none';
+    // Reset transform first to get the natural width
+    container.style.transform = 'none';
+    popupOverlay.style.transform = 'none';
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const isPortrait = vh > vw;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-  const rect = container.getBoundingClientRect();
-  const visibleWidth = rect.width;
+    const isPortrait = vh > vw;
 
-  if (isPortrait && visibleWidth < vw * 0.95) {
-    const scale = vw * 0.95 / visibleWidth;
+    const rect = container.getBoundingClientRect();
+    const visibleWidth = rect.width;
 
-    container.style.transform = `scale(${scale})`;
-    popupOverlay.style.transform = `scale(${scale})`;
+    // Only scale if visibly smaller than viewport width (margin included)
+    if (isPortrait && visibleWidth < vw * 0.95) {
+      const scale = vw * 0.95 / visibleWidth;
 
-    container.style.transformOrigin = 'center center';
-    popupOverlay.style.transformOrigin = 'center center';
-  }
+      container.style.transform = `scale(${scale})`;
+      popupOverlay.style.transform = `scale(${scale})`;
+
+      container.style.transformOrigin = 'center center';
+      popupOverlay.style.transformOrigin = 'center center';
+    }
+  }, 0); // allow one frame
 }
 
 window.addEventListener('DOMContentLoaded', applyScale);
