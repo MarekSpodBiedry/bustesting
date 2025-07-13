@@ -861,8 +861,8 @@ function applyScale() {
     }
 
     // === Scale popup if too small ===
-    if (isPortrait && contentRect.width < vw * 0.9) {
-      const contentScale = vw * 0.9 / contentRect.width;
+    if (isPortrait && contentRect.width < vw * 0.85) {
+      const contentScale = vw * 0.85 / contentRect.width;
       popupContent.style.transform = `scale(${contentScale})`;
       popupContent.style.transformOrigin = 'center center';
     }
