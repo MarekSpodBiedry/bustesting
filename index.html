@@ -839,35 +839,34 @@ function applyScale() {
   setTimeout(() => {
     const container = document.querySelector('.container');
     const popupOverlay = document.getElementById('popupOverlay');
+    const popupContent = popupOverlay?.querySelector('.popupContent');
 
-    // Reset transforms to measure original size
+    // Reset transforms to get actual sizes
     container.style.transform = 'none';
-    popupOverlay.style.transform = 'none';
+    popupContent.style.transform = 'none';
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-
     const isPortrait = vh > vw;
 
     const containerRect = container.getBoundingClientRect();
-    const overlayRect = popupOverlay.getBoundingClientRect();
+    const contentRect = popupContent?.getBoundingClientRect();
 
+    // === Scale container if too small ===
     if (isPortrait && containerRect.width < vw * 0.95) {
-      // Scale to make container fit ~95% of screen width
       const containerScale = vw * 0.95 / containerRect.width;
-
-      // Scale to make popupOverlay fit within screen width and height
-      const maxOverlayScaleX = vw * 0.95 / overlayRect.width;
-      const maxOverlayScaleY = vh * 0.95 / overlayRect.height;
-
-      const overlayScale = Math.min(containerScale, maxOverlayScaleX, maxOverlayScaleY);
-
-      // Apply transforms
       container.style.transform = `scale(${containerScale})`;
       container.style.transformOrigin = 'center center';
+    }
 
-      popupOverlay.style.transform = `scale(${overlayScale})`;
-      popupOverlay.style.transformOrigin = 'center center';
+    // === Scale popupContent if it's too big ===
+    if (popupContent && isPortrait) {
+      const maxPopupScaleX = vw * 0.95 / contentRect.width;
+      const maxPopupScaleY = vh * 0.95 / contentRect.height;
+      const popupScale = Math.min(1, maxPopupScaleX, maxPopupScaleY); // never scale up
+
+      popupContent.style.transform = `scale(${popupScale})`;
+      popupContent.style.transformOrigin = 'center center';
     }
   }, 0);
 }
