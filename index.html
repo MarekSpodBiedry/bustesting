@@ -201,9 +201,8 @@ function applyResponsiveScale() {
   const popupOverlay = document.getElementById('popupOverlay');
 
   const isPortrait = window.innerHeight > window.innerWidth;
-  const containerWidth = container.getBoundingClientRect().width;
 
-  const needsScale = isPortrait && containerWidth < 400;
+  const needsScale = isPortrait;
 
   // Reset scale first
   container.style.transform = 'none';
