@@ -386,6 +386,7 @@ function showPopup(content, center = false) {
 
   MathJax.typesetPromise();
   document.getElementById("popupOverlay").style.display = "flex";
+  applyScale();
 }
 
 // Close popups
@@ -859,14 +860,11 @@ function applyScale() {
       container.style.transformOrigin = 'center center';
     }
 
-    // === Scale popupContent if it's too big ===
-    if (popupContent && isPortrait) {
-      const maxPopupScaleX = vw * 0.95 / contentRect.width;
-      const maxPopupScaleY = vh * 0.95 / contentRect.height;
-      const popupScale = Math.min(1, maxPopupScaleX, maxPopupScaleY); // never scale up
-
-      popupContent.style.transform = `scale(${popupScale})`;
-      popupContent.style.transformOrigin = 'center center';
+    // === Scale popup if too small ===
+    if (isPortrait && contentRect.width < vw * 0.9) {
+      const contentScale = vw * 0.9 / contentRect.width;
+      content.style.transform = `scale(${contentScale})`;
+      content.style.transformOrigin = 'center center';
     }
   }, 0);
 }
