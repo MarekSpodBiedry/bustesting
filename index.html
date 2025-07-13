@@ -863,14 +863,13 @@ function applyScale() {
     // === Scale popup if too small ===
     if (isPortrait && contentRect.width < vw * 0.9) {
       const contentScale = vw * 0.9 / contentRect.width;
-      content.style.transform = `scale(${contentScale})`;
-      content.style.transformOrigin = 'center center';
+      popupContent.style.transform = `scale(${contentScale})`;
+      popupContent.style.transformOrigin = 'center center';
     }
   }, 0);
 }
 
 window.addEventListener('DOMContentLoaded', applyScale);
-window.addEventListener('resize', applyScale);
 window.addEventListener('orientationchange', applyScale);
 </script>
 
