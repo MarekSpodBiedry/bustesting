@@ -195,33 +195,6 @@ body {
   transform-origin: center center;
 }
   </style>
-  <script>
-function applyResponsiveScale() {
-  const container = document.querySelector('.container');
-  const popupOverlay = document.getElementById('popupOverlay');
-
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const isPortrait = vh > vw;
-
-  // Reset previous scaling
-  container.style.transform = 'none';
-  popupOverlay.style.transform = 'none';
-  container.style.transformOrigin = 'center center';
-  popupOverlay.style.transformOrigin = 'center center';
-
-  if (isPortrait && vw < 400) {
-    const scale = vw / 400;
-    container.style.transform = `scale(${scale})`;
-    popupOverlay.style.transform = `scale(${scale})`;
-  }
-}
-
-window.addEventListener('DOMContentLoaded', applyResponsiveScale);
-window.addEventListener('resize', applyResponsiveScale);
-</script>
-
-
 </head>
 <body>
 <div class="container">
@@ -859,5 +832,35 @@ input.addEventListener("input", function () {
   }
 });
 </script>
+
+<script>
+function applyScale() {
+  const container = document.querySelector('.container');
+  const popupOverlay = document.getElementById('popupOverlay');
+
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  const isPortrait = vh > vw;
+
+  // Reset scale first
+  container.style.transform = 'none';
+  popupOverlay.style.transform = 'none';
+  container.style.transformOrigin = 'center center';
+  popupOverlay.style.transformOrigin = 'center center';
+
+  if (isPortrait && vw < 400) {
+    const scale = vw / 400;
+
+    container.style.transform = `scale(${scale})`;
+    popupOverlay.style.transform = `scale(${scale})`;
+  }
+}
+
+window.addEventListener('DOMContentLoaded', applyScale);
+window.addEventListener('resize', applyScale);
+window.addEventListener('orientationchange', applyScale);
+</script>
+
 </body>
 </html>
